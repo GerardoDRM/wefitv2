@@ -6,15 +6,17 @@ import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.respond
+import io.ktor.server.response.respondText
+import io.ktor.server.resources.get
 import io.ktor.server.routing.*
+import com.wefit.workouts.Workouts
+import com.wefit.workouts.Workout
 
 fun Application.workoutsRoutes() {
     routing {
-        route("/workouts") {
-            get {
-                call.respond(HttpStatusCode.OK)
-                return@get
-            }
+        get<Workouts> {
+            val workoluts = Workout(name="workout1")
+            call.respond(workoluts)
         }
     }
 }
