@@ -17,15 +17,20 @@ import com.wefit.utils.generateToken
 
 fun Application.userRoutes(userRepository: UserRepository) {
     routing {
-        post<Login> {
+        post("/login") {
             // Validate user credentials here
-            val user = userRepository.findUserByEmail("test@test.com")
-            if (user != null) {
+            val loginData = call.receive<Login>()
+            if (loginData.email == null || loginData.email.isEmpty()) {
+                call.respond(HttpStatusCode.BadRequest, "Email is required")
+                return@post
+            }
+            val user = userRepository.findUserByEmail(loginData.email)
+            if (user != null && user.isActive) {
                 val token = generateToken(user.id)
                 call.respond(mapOf("token" to token))
             } else {
                 call.respond(HttpStatusCode.Unauthorized, "Invalid credentials")
             }
-        }
+         }
     }
 }

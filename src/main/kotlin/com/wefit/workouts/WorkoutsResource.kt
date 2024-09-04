@@ -5,8 +5,11 @@ import kotlinx.serialization.Serializable
 
 @Resource("/workouts")
 class Workouts {
-
+    @Resource("/{id}")
+    class Id
 }
+
+
 
 @Serializable
 data class Workout(
