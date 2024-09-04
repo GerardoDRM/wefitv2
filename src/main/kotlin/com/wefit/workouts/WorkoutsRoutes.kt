@@ -18,5 +18,8 @@ fun Application.workoutsRoutes() {
             val workoluts = Workout(name="workout1")
             call.respond(workoluts)
         }
+        get("/workouts") {
+            call.respondText("workouts")
+        }
     }
 }

@@ -9,6 +9,9 @@ import io.ktor.server.resources.*
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import com.wefit.db.UserTable
+import com.wefit.db.WorkoutTable
+import com.wefit.db.ExerciseTable
+import com.wefit.db.SetTable
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.server.auth.*
@@ -47,6 +50,11 @@ fun Application.module() {
     // Initialize the database and create tables if they don't exist
     transaction {
         SchemaUtils.create(UserTable) // This will create the Users table if it doesn't exist
+
+        SchemaUtils.createMissingTablesAndColumns(UserTable)
+        SchemaUtils.createMissingTablesAndColumns(ExerciseTable)
+        SchemaUtils.createMissingTablesAndColumns(WorkoutTable)
+        SchemaUtils.createMissingTablesAndColumns(SetTable)
     }
     workoutsRoutes()
     userRoutes(repository)

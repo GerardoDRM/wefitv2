@@ -13,6 +13,7 @@ import com.wefit.model.User
 object UserTable : IntIdTable() {
     val name = varchar("name", 50)
     val email = varchar("email", 50)
+    val isActive = bool("is_active").default(false)
 }
 
 class UserDAO(id: EntityID<Int>) : IntEntity(id) {
@@ -20,6 +21,7 @@ class UserDAO(id: EntityID<Int>) : IntEntity(id) {
 
     var name by UserTable.name
     var email by UserTable.email
+    var isActive by UserTable.isActive
 }
 
 
@@ -31,4 +33,5 @@ fun daoUserToModel(dao: UserDAO) = User(
     dao.id.value,
     dao.name,
     dao.email,
+    dao.isActive,
 )
